@@ -7,7 +7,14 @@
 
 SafeStop AI is an advanced fail-safe system designed for Level 4 autonomous vehicles. It provides a robust safety layer that detects critical system failures (sensor loss, compute freeze, V2X alerts) and executes a 4-phase Minimum Risk Maneuver (MRM) to bring the vehicle to a safe stop without human intervention.
 
-![Demo Preview](https://via.placeholder.com/800x400?text=SafeStop+AI+Dashboard+Preview)
+![Demo Preview](assets/demo_lidar_failure.png)
+
+## 📸 Visual Overview
+
+| **1. Critical Sensor Failure** | **2. Multi-Failure Mode** | **3. V2X & Metrics** |
+|--------------------------------|---------------------------|----------------------|
+| ![LiDAR Failure](assets/demo_lidar_failure.png) | ![Multi Failure](assets/demo_multi_failure.png) | ![V2X Metrics](assets/demo_v2x_metrics.png) |
+| *LiDAR fails, point cloud vanishes, emergency stop triggers.* | *Camera freezes + Obstacle detected. Safe clearance maintained.* | *Real-time physics metrics and V2X latency monitoring.* |
 
 ## 🚀 Key Features
 
