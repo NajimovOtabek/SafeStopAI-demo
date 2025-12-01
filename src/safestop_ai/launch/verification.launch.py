@@ -42,12 +42,13 @@ def generate_launch_description():
         ),
 
         # 3. Test Runner (Injects faults and verifies response)
-        Node(
-            package='safestop_ai',
-            executable='test_scenario_runner',
-            name='test_scenario_runner',
-            output='screen'
-        ),
+        # Commented out for interactive demo mode
+        # Node(
+        #     package='safestop_ai',
+        #     executable='test_scenario_runner',
+        #     name='test_scenario_runner',
+        #     output='screen'
+        # ),
 
         # 4. Visualization
         Node(

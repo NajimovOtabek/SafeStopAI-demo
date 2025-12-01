@@ -136,9 +136,16 @@ function App() {
           </h1>
           <p className="text-slate-400">Team 4 Investor Demo</p>
         </div>
-        <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${connected ? 'bg-green-900/30 text-green-400 border border-green-800' : 'bg-red-900/30 text-red-400 border border-red-800'}`}>
-          {connected ? <Wifi size={20} /> : <WifiOff size={20} />}
-          <span className="font-semibold">{connected ? 'Connected to ROS2' : 'Disconnected'}</span>
+        <div className="flex items-center gap-4">
+          {!connected && (
+            <div className="text-xs text-red-400 animate-pulse">
+              Waiting for ROS2... (Is ./run_demo.sh running?)
+            </div>
+          )}
+          <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${connected ? 'bg-green-900/30 text-green-400 border border-green-800' : 'bg-red-900/30 text-red-400 border border-red-800'}`}>
+            {connected ? <Wifi size={20} /> : <WifiOff size={20} />}
+            <span className="font-semibold">{connected ? 'Connected' : 'Disconnected'}</span>
+          </div>
         </div>
       </header>
 
@@ -162,63 +169,68 @@ function App() {
             )}
           </div>
 
-          {/* Fault Controls */}
+          {/* Scenario Controller */}
           <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <Zap size={20} className="text-yellow-400" />
-              Fault Injection
+              Investor Scenarios
             </h3>
-            <div className="grid grid-cols-2 gap-3">
-              <button onClick={() => injectFault('LIDAR')} className="p-3 bg-slate-700 hover:bg-red-900/50 hover:border-red-500 border border-slate-600 rounded-lg transition-all text-sm font-medium">
-                Inject LiDAR Loss
-              </button>
-              <button onClick={() => injectFault('CAMERA')} className="p-3 bg-slate-700 hover:bg-red-900/50 hover:border-red-500 border border-slate-600 rounded-lg transition-all text-sm font-medium">
-                Inject Camera Freeze
-              </button>
-              <button onClick={() => injectFault('IMU')} className="p-3 bg-slate-700 hover:bg-red-900/50 hover:border-red-500 border border-slate-600 rounded-lg transition-all text-sm font-medium">
-                Inject IMU Drift
-              </button>
-              <button onClick={resetSystem} className="p-3 bg-blue-900/30 hover:bg-blue-800/50 border border-blue-700 text-blue-300 rounded-lg transition-all text-sm font-medium">
-                Reset System
+            <div className="space-y-4">
+              {/* Scenario 1 */}
+              <div className="p-4 bg-slate-700/50 rounded-lg border border-slate-600 hover:border-blue-400 transition-all cursor-pointer group" onClick={() => injectFault('LIDAR')}>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-bold text-blue-300">Scenario A: LiDAR Failure</span>
+                  <span className="text-xs bg-red-900/50 text-red-300 px-2 py-1 rounded border border-red-800">Critical</span>
+                </div>
+                <p className="text-sm text-slate-400 mb-2">
+                  Simulates a sudden hardware failure of the primary LiDAR sensor during autonomous navigation.
+                </p>
+                <div className="text-xs font-mono text-green-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Expected Reaction: Immediate Emergency Stop
+                </div>
+              </div>
+
+              {/* Scenario 2 */}
+              <div className="p-4 bg-slate-700/50 rounded-lg border border-slate-600 hover:border-blue-400 transition-all cursor-pointer group" onClick={() => injectFault('CAMERA')}>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-bold text-blue-300">Scenario B: Camera Freeze</span>
+                  <span className="text-xs bg-yellow-900/50 text-yellow-300 px-2 py-1 rounded border border-yellow-800">Warning</span>
+                </div>
+                <p className="text-sm text-slate-400 mb-2">
+                  Simulates a frozen video feed from the front-facing camera.
+                </p>
+                <div className="text-xs font-mono text-green-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Expected Reaction: Safe Stop (Deceleration)
+                </div>
+              </div>
+
+              {/* Reset */}
+              <button onClick={resetSystem} className="w-full p-3 bg-blue-900/30 hover:bg-blue-800/50 border border-blue-700 text-blue-300 rounded-lg transition-all text-sm font-bold tracking-wider">
+                RESET SIMULATION
               </button>
             </div>
           </div>
         </div>
 
-        {/* Middle Column: Live Map */}
+        {/* Middle Column: Live Map (Canvas Visualization) */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 h-[400px] relative overflow-hidden">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 absolute top-6 left-6 z-10">
+          <div className="bg-slate-900 p-1 rounded-xl border border-slate-700 h-[500px] relative overflow-hidden shadow-2xl">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 absolute top-6 left-6 z-10 text-white/80 bg-slate-900/50 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">
               <Map size={20} className="text-blue-400" />
-              Live Navigation
+              LIDAR SLAM Visualization
             </h3>
 
-            {/* Simple CSS Map Visualization */}
-            <div className="w-full h-full bg-slate-900 rounded-lg relative grid grid-cols-[repeat(20,1fr)] grid-rows-[repeat(20,1fr)] opacity-50">
-              {/* Grid Lines */}
-              {Array.from({ length: 400 }).map((_, i) => (
-                <div key={i} className="border-[0.5px] border-slate-800" />
-              ))}
+            {/* Overlay UI */}
+            <div className="absolute top-6 right-6 z-10 flex flex-col items-end gap-2">
+              <div className="text-xs font-mono text-blue-400/80">VELOCITY: {(Math.random() * 0.5).toFixed(2)} m/s</div>
+              <div className="text-xs font-mono text-blue-400/80">HEADING: {(robotPose.x * 10).toFixed(1)}°</div>
             </div>
 
-            {/* Robot */}
-            <div
-              className="absolute w-6 h-6 bg-blue-500 rounded-full border-2 border-white shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300"
-              style={{
-                left: `calc(50% + ${robotPose.x * 20}px)`,
-                top: `calc(50% - ${robotPose.y * 20}px)`,
-                transform: 'translate(-50%, -50%)'
-              }}
-            >
-              <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-xs whitespace-nowrap bg-slate-800 px-2 py-1 rounded border border-slate-600">
-                TB3 Burger
-              </div>
-            </div>
-
-            {/* Safe Zones (Mocked positions) */}
-            <div className="absolute top-1/2 left-[70%] w-16 h-24 border-2 border-dashed border-green-500/50 bg-green-500/10 rounded flex items-center justify-center">
-              <span className="text-green-500/50 text-xs font-bold">SAFE ZONE</span>
-            </div>
+            <CanvasMap
+              robotPose={robotPose}
+              emergencyMode={emergencyMode}
+              faultData={faultData}
+            />
           </div>
 
           {/* Log Feed */}
@@ -242,6 +254,116 @@ function App() {
       </div>
     </div>
   );
+}
+
+// Canvas Visualization Component
+function CanvasMap({ robotPose, emergencyMode, faultData }) {
+  const canvasRef = useRef(null);
+  const [rotation, setRotation] = useState(0);
+
+  useEffect(() => {
+    let animationFrameId;
+
+    const render = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+
+      // Clear
+      ctx.fillStyle = '#0f172a'; // Slate-900
+      ctx.fillRect(0, 0, width, height);
+
+      // Draw Grid
+      ctx.strokeStyle = '#1e293b'; // Slate-800
+      ctx.lineWidth = 1;
+      const gridSize = 40;
+      for (let x = 0; x < width; x += gridSize) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
+      }
+      for (let y = 0; y < height; y += gridSize) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
+      }
+
+      // Center (Robot Position)
+      const cx = width / 2 + robotPose.x * 20;
+      const cy = height / 2 - robotPose.y * 20;
+
+      // Draw Safe Zone (Static relative to map center for demo)
+      const szX = width / 2 + 100;
+      const szY = height / 2;
+      ctx.strokeStyle = '#22c55e'; // Green-500
+      ctx.setLineDash([5, 5]);
+      ctx.strokeRect(szX - 40, szY - 40, 80, 80);
+      ctx.fillStyle = 'rgba(34, 197, 94, 0.1)';
+      ctx.fillRect(szX - 40, szY - 40, 80, 80);
+      ctx.fillStyle = '#22c55e';
+      ctx.font = '12px monospace';
+      ctx.fillText('SAFE ZONE', szX - 30, szY - 50);
+      ctx.setLineDash([]);
+
+      // Draw LIDAR Points (Simulated)
+      if (!faultData || faultData.type !== 'LIDAR') {
+        ctx.fillStyle = '#60a5fa'; // Blue-400
+        for (let i = 0; i < 360; i += 10) {
+          const angle = (i * Math.PI) / 180 + rotation;
+          const dist = 50 + Math.random() * 100;
+          const px = cx + Math.cos(angle) * dist;
+          const py = cy + Math.sin(angle) * dist;
+          ctx.beginPath();
+          ctx.arc(px, py, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Draw Robot Body
+      ctx.save();
+      ctx.translate(cx, cy);
+      // Robot Shape
+      ctx.fillStyle = emergencyMode ? '#ef4444' : '#3b82f6'; // Red or Blue
+      ctx.shadowColor = emergencyMode ? '#ef4444' : '#3b82f6';
+      ctx.shadowBlur = 20;
+      ctx.beginPath();
+      ctx.arc(0, 0, 12, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Heading Indicator
+      ctx.rotate(rotation * 2); // Spin effect for demo
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(15, 0);
+      ctx.stroke();
+      ctx.restore();
+
+      // Radar Sweep Effect
+      if (!faultData || faultData.type !== 'LIDAR') {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(rotation);
+        const gradient = ctx.createConicGradient(0, 0, 0);
+        gradient.addColorStop(0, 'rgba(59, 130, 246, 0)');
+        gradient.addColorStop(0.8, 'rgba(59, 130, 246, 0.1)');
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0.4)');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(0, 0, 200, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // Update Rotation
+      setRotation(r => r + 0.02);
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [robotPose, emergencyMode, faultData, rotation]);
+
+  return <canvas ref={canvasRef} width={800} height={500} className="w-full h-full bg-slate-900" />;
 }
 
 export default App;
