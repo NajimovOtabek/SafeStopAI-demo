@@ -2,6 +2,9 @@
 
 > **ISO 26262 Compliant | Fail-Operational Architecture | V2X-Enabled**
 
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=netlify)](https://safestopai.netlify.app/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github)](https://github.com/NajimovOtabek/SafeStopAI)
+
 SafeStop AI is an advanced fail-safe system designed for Level 4 autonomous vehicles. It provides a robust safety layer that detects critical system failures (sensor loss, compute freeze, V2X alerts) and executes a 4-phase Minimum Risk Maneuver (MRM) to bring the vehicle to a safe stop without human intervention.
 
 ![Demo Preview](https://via.placeholder.com/800x400?text=SafeStop+AI+Dashboard+Preview)
