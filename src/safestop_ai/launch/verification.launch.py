@@ -56,5 +56,13 @@ def generate_launch_description():
             name='rviz2',
             arguments=['-d', [os.path.join(get_package_share_directory('safestop_ai'), 'rviz', 'safestop.rviz')]],
             output='screen'
+        ),
+
+        # 5. Web Bridge (for Investor Dashboard)
+        Node(
+            package='rosbridge_server',
+            executable='rosbridge_websocket',
+            name='rosbridge_websocket',
+            output='screen'
         )
     ])

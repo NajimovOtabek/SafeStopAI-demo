@@ -56,3 +56,24 @@ ros2 launch safestop_ai verification.launch.py
 3. Injects `fail_lidar`.
 4. `health_monitor` detects `SENSOR_LOSS_LIDAR`.
 5. `test_scenario_runner` prints `TEST PASSED`.
+
+## Investor Dashboard (Web GUI)
+For a premium visual demonstration:
+
+1.  **Install ROS Bridge**:
+    ```bash
+    sudo apt install ros-humble-rosbridge-suite
+    ```
+2.  **Run the System**:
+    ```bash
+    ros2 launch safestop_ai verification.launch.py
+    ```
+3.  **Start the Dashboard**:
+    ```bash
+    cd safestop_dashboard
+    npm install
+    npm run dev
+    ```
+4.  **Open Browser**: Go to `http://localhost:5173`.
+    - You will see the "Connected" status.
+    - Click "Inject LiDAR Loss" to see the system react in real-time!
