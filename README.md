@@ -77,6 +77,30 @@ ros2 launch safestop_ai safestop.launch.py
 
 ---
 
+## 🏗️ Engineering & Development
+
+Our system is built upon rigorous simulation and real-world mapping workflows.
+
+### 1. SLAM & Mapping
+We utilized Cartographer and SLAM Toolbox to create high-fidelity maps of our test environments, ensuring accurate localization for the emergency planner.
+
+![SLAM Mapping Stages](assets/slam-mapping-stages-1-4.jpeg)
+*Evolution of the occupancy grid map during the mapping phase.*
+
+### 2. Simulation Environment
+Testing was conducted in a complex Gazebo environment featuring traffic, pedestrians, and static obstacles to validate the 4-phase control policy.
+
+| **Teleoperation & Testing** | **Traffic Test Track** |
+|-----------------------------|------------------------|
+| ![Teleop Sim](assets/slam-teleop-simulation-collage.jpeg) | ![Traffic Track](assets/simulation-traffic-test-track.jpeg) |
+
+### 3. Project Curriculum
+A structured approach covering everything from basic ROS2 nodes to advanced V2X integration.
+
+![Curriculum Overview](assets/safestop-ai-curriculum-overview.png)
+
+---
+
 ## 📚 Documentation & Research
 
 Our implementation is grounded in extensive industry research and safety standards.
